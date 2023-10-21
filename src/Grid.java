@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Grid {
 	
-	int ROWS;
-	int COLS;
+	private int ROWS;
+	private int COLS;
+	private int countOfBombs;
 	ArrayList<ArrayList<String>> GRID;
 	
 	
@@ -18,7 +20,7 @@ public class Grid {
 		//Create a grid of empty spaces and bombs
 		ArrayList<ArrayList<String>> grid = new ArrayList<>();
 				
-		String[] options = new String[]{"#", "#", "💣"};
+		String[] options = new String[]{"#", "#", "#","#", "💣"};
 				
 		Random rand = new Random();
 				
@@ -27,7 +29,11 @@ public class Grid {
 					
 			for (int j = 0; j < this.COLS; j++) {
 				//choose a random string from options list
-				innerList.add(options[rand.nextInt(3)]);
+				String randomOption = options[rand.nextInt(5)];
+				innerList.add(randomOption);
+				
+				//count bombs
+				if (randomOption.equals("💣")) this.countOfBombs++;
 				}
 			
 			//add columns to the row
@@ -39,9 +45,7 @@ public class Grid {
 		ArrayList<ArrayList<String>> finalGrid = addNumbersOfBombs();
 		
 		return finalGrid;
-		
 	}
-	
 
 	private ArrayList<ArrayList<String>> addNumbersOfBombs() {
 		
@@ -96,14 +100,36 @@ public class Grid {
 
 	}
 
-
-
-
-//Printing the mine to the console
+	//Printing the mine to the console
 	public void printGrid(ArrayList<ArrayList<String>> grid) {
 		for(int i=0; i< this.ROWS; i++) {
 		//printing rows
-			System.out.println(grid.get(i).toString());
+			System.out.println(grid.get(i).toString());	
 	}		
 }
+	
+	//Getters & Setters
+	public int getROWS() {
+		return ROWS;
+	}
+
+	public void setROWS(int rOWS) {
+		ROWS = rOWS;
+	}
+
+	public int getCOLS() {
+		return COLS;
+	}
+
+	public void setCOLS(int cOLS) {
+		COLS = cOLS;
+	}
+
+	public int getCountOfBombs() {
+		return countOfBombs;
+	}
+
+	public void setCountOfBombs(int countOfBombs) {
+		this.countOfBombs = countOfBombs;
+	}
 }

@@ -12,6 +12,7 @@ public class Minesweeper {
 		int r;
 		int c;
 		
+		
 		public MineTile(int r, int c) {
 			this.r = r;
 			this.c = c;
@@ -26,10 +27,14 @@ public class Minesweeper {
 	int boardWidth = tileSize * rows;
 	int boardHeight = tileSize * cols;
 	
+	
+
+	
 	JFrame frame = new JFrame("Minesweeper");
 	JLabel textLabel = new JLabel();
 	JPanel textPanel = new JPanel();
 	JPanel boardPanel = new JPanel();
+	JButton playAgainButton = new JButton();
 	
 	MineTile[][] board = new MineTile[rows][cols];
 	
@@ -41,9 +46,10 @@ public class Minesweeper {
 		//Create a grid
 		Grid myGrid = new Grid(this.rows, this.cols);
 		ArrayList<ArrayList<String>> grid = myGrid.getGrid();
+		int countBombs = myGrid.getCountOfBombs();
+		
 		System.out.println("Grid created:");
 		myGrid.printGrid(grid);
-		
 		
 		
 		frame.setSize(boardWidth,boardHeight);
@@ -57,13 +63,20 @@ public class Minesweeper {
 		textLabel.setText("Minesweeper");
 		textLabel.setOpaque(true);
 		
+		playAgainButton.setFont(new Font("Arial", Font.BOLD, 25));
+		playAgainButton.setHorizontalAlignment(JLabel.CENTER);
+		playAgainButton.setText("Minesweeper");
+		playAgainButton.setEnabled(false);
+		
 		textPanel.setLayout(new BorderLayout());
 		textPanel.add(textLabel);
 		frame.add(textPanel, BorderLayout.NORTH);
+		frame.add(playAgainButton, BorderLayout.NORTH);
 		
 		boardPanel.setLayout(new GridLayout(rows, cols));
 		//boardPanel.setBackground(Color.green);
 		frame.add(boardPanel);
+		
 		
 
 		
@@ -78,34 +91,72 @@ public class Minesweeper {
 				tile.setFont(new Font("Arial Unicode MS", Font.PLAIN, 45));
 				
 				tile.addMouseListener(new MouseAdapter(){
+		
 					@Override
 					public void mousePressed(MouseEvent e) {
+						
 						if(tile.getText()=="") {
-							System.out.println("Empty tile clicked at row= "+tile.r+" and col= "+tile.c);
+							//System.out.println("Empty tile clicked at row= "+tile.r+" and col= "+tile.c);
 							tile.setEnabled(false);
 							String valueInGrid = grid.get(tile.r).get(tile.c);
 							if(valueInGrid == "💣") {
 								tile.setText("💣");
-								revealGrid();}
-							else if (valueInGrid.equals("0")) {
-								System.out.println("Found 0. Going to reveal func");
-								revealTilesAround(tile.r,tile.c);
-								tile.setText(valueInGrid);
-								
+								revealGrid();
+								playAgainButton.setText("Game Over! Play Again?");
+								playAgainButton.setEnabled(true);
+								}
+							
+							else {
+								if (valueInGrid.equals("0")) {
+									System.out.println("Found 0. Going to reveal func");
+									revealTilesAround(tile.r,tile.c);
+									tile.setText(valueInGrid);	
+									
+								}
+								else {
+									tile.setText(valueInGrid);
+									
+								};
+								checkIfWon();
 							}
-							else tile.setText(valueInGrid);
+							
+							
+							
+						
 							}
 					
 						}
+					
+		//check if game is won by counting how many buttons are still hidden and comparing with bombs present
+		private void checkIfWon() {
+			int count = 0;
+			for(int r=0; r<rows; r++) {
+				for(int c=0; c<cols; c++) {
+					MineTile tile = board[r][c];
+					if(tile.isEnabled()==true) count++;	
+				}
+			}
+			System.out.println("Bombs= "+countBombs+" Empty= "+count);
+			if (count == countBombs ) {
+				playAgainButton.setText("You won! Play Again?");
+				playAgainButton.setEnabled(true);
+				//textLabel.setText("You won!");
+				revealGrid();
+				};
+		}
 
 		//when a bomb is clicked-- reveal all--game over			
 		private void revealGrid() {
 			System.out.println("i m revealing grid");
-			textLabel.setText("Game Over!");
+			
 			for(int r=0; r<rows; r++) {
 				for(int c=0; c<cols; c++) {
 					MineTile tile = board[r][c];
 					String valueInGrid = grid.get(r).get(c);
+					if (valueInGrid.equals("💣")) {
+						tile.setBackground(Color.RED);
+						tile.setOpaque(true);
+						}
 					tile.setText(valueInGrid);
 					tile.setEnabled(false);		
 				}
@@ -148,60 +199,18 @@ public class Minesweeper {
 						};
 					tile.setEnabled(false); //disable the revealed tiles
 					
-					
-					
-					
 					}
-				}
-			
+				}	
 		}
 		
-		
-		//....
-		
-		
-		
-		//check for empty tiles around--reveal if no bombs
-		private void checkEmptyTilesAround(int row, int col) {
-			int start_row; //start checking from previous row;
-			int end_row; //stop checking at next row
-			
-			int start_col;
-			int end_col;
-			
-			if(row - 1 < 0) start_row = row; //if previous row is less than 0 then don't check it
-			else start_row = row - 1;
-			
-			if(row + 1 >= rows) end_row = row; //if next row is greater than max no. of rows then don't check it
-			else end_row = row + 1;
-			
-			if(col - 1 < 0) start_col = col;
-			else start_col = col - 1;
-			
-			if(col + 1 >= cols) end_col = col;
-			else end_col = col + 1;
-			
-			for(int i = start_row; i <= end_row; i++) {
-				for(int j = start_col; j <= end_col; j++) {
-					MineTile tile = board[i][j];
-					String valueInGrid = grid.get(i).get(j);
-					System.out.println("checking row= "+i+" and col= "+j);
-					System.out.println("tile value is "+grid.get(i).get(j));
-					if(valueInGrid.equals("0") && tile.isEnabled()==true) {
-						System.out.println("tile is 0");
-						
-						tile.setText(valueInGrid);
-						tile.setEnabled(false);	
-						//check tiles around this tile
-						checkEmptyTilesAround(i,j);
-					}
-				}
-			
-		}}
+		//......
+	
 		
 		//.........
-				});	
-				boardPanel.add(tile);		
+				}
+				);	
+				boardPanel.add(tile);	
+			
 			}
 		}
 		

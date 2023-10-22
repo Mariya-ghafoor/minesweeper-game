@@ -4,7 +4,9 @@ import java.util.Arrays;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class Minesweeper {
+//TEST CLASS TO IMPLEMENT PLAYAGAIN BUTTON. PLEASE IGNORE.
+
+public class MinesweeperNew {
 	private static final long serialVersionUID = 1L;
 	int rows;
 	int cols;
@@ -21,7 +23,11 @@ public class Minesweeper {
 		}
 	}
 	
-	public Minesweeper(int rows, int cols) {
+	
+	
+	
+	public MinesweeperNew(int rows, int cols) {
+		System.out.println("In constructor");
 		this.rows = rows;
 		this.cols = cols;
 		MineTile[][] board = new MineTile[rows][cols];
@@ -43,10 +49,13 @@ public class Minesweeper {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		
+		
 		playAgainButton.setFont(new Font("Arial", Font.BOLD, 25));
 		playAgainButton.setHorizontalAlignment(JLabel.CENTER);
 		playAgainButton.setText("Minesweeper");
 		playAgainButton.setEnabled(false);
+		
+		
 		
 		textPanel.setLayout(new BorderLayout());
 		textPanel.add(textLabel);
@@ -56,6 +65,28 @@ public class Minesweeper {
 		boardPanel.setLayout(new GridLayout(rows, cols));
 		//boardPanel.setBackground(Color.green);
 		frame.add(boardPanel);
+		
+		//.........
+		class PlayAgain implements ActionListener{	
+			public PlayAgain() {
+				playAgainButton.addActionListener(this);	
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("some action");
+				frame.remove(boardPanel);
+//				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+				Minesweeper mine = new Minesweeper(rows,cols);
+				
+			}
+
+			}
+
+		
+		
+		//........
+		PlayAgain p = new PlayAgain();
 
 		//Create a grid
 		Grid myGrid = new Grid(this.rows, this.cols);
@@ -87,6 +118,9 @@ public class Minesweeper {
 								revealGrid();
 								playAgainButton.setText("Game Over! Play Again?");
 								playAgainButton.setEnabled(true);
+								
+								
+								
 								}
 							
 							else {
@@ -108,6 +142,8 @@ public class Minesweeper {
 							}
 					
 						}
+					
+	
 					
 		//check if game is won by counting how many buttons are still hidden and comparing with bombs present
 		private void checkIfWon() {

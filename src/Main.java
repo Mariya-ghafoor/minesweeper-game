@@ -1,18 +1,4 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
 import java.util.Scanner;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class Main {
 
@@ -48,11 +34,7 @@ public class Main {
 				int cols = (int)config.getGridColumns();
 				
 				Minesweeper minesweeper = new Minesweeper(rows, cols);
-				condition = false;
-				
-				
-			
-				
+				condition = false;	
 				
 			}
 			
@@ -61,16 +43,6 @@ public class Main {
 			}
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-
 	}
-	
-	
 
 }

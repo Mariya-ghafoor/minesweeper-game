@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
 import java.awt.event.*;
 

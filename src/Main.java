@@ -1,9 +1,17 @@
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.Scanner;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Main {
 
@@ -11,37 +19,28 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		
+		//Create a JSON file and write into it
 		
-//		Mine myMine = new Mine(10,10);
-//		ArrayList<ArrayList<String>> grid = myMine.createMine();
-//		myMine.printMine(grid);
-//		
-//		System.out.println("..........");
-//		
-//		
-//		MineUtils hiddenMine = new MineUtils(grid);
-//		ArrayList<ArrayList<String>> hiddenGrid = hiddenMine.createHiddenMine(10,10);
-//		//myMine.printMine(hiddenMine.createHiddenMine(10,10));
-//		
-//		int user_selected_row = 2;
-//		int user_selected_col = 4;
-//		ArrayList<ArrayList<String>> revealedGrid = hiddenMine.revealCell(user_selected_row, user_selected_col, hiddenGrid);
-//		
-//		
-//		int user_selected_row1 = 4;
-//		int user_selected_col1 = 4;
-//		ArrayList<ArrayList<String>> revealedGrid1 = hiddenMine.revealCell(user_selected_row1, user_selected_col1, revealedGrid);
-//		myMine.printMine(revealedGrid1);
+		
+		
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter number of rows: ");
+		int rowsUser = s.nextInt();
+		
+		System.out.println("Enter number of columns: ");
+		int colsUser = s.nextInt();
+		
+		ConfigFile config = new ConfigFile(rowsUser, colsUser);
+		
+		int rows = (int)config.getGridRows();
+		int cols = (int)config.getGridColumns();
+		
+		Minesweeper minesweeper = new Minesweeper(rows, cols);
+		
+		
 
-		Minesweeper minesweeper = new Minesweeper();
-		
-		
-		
-		
-		
-		
-		
-	
 	}
+	
+	
 
 }

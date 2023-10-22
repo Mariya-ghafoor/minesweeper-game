@@ -12,7 +12,7 @@ public class Grid {
 	
 	public Grid(int rows, int cols) {
 		this.ROWS = rows;
-		this.COLS = cols;		
+		this.COLS = cols;
 	}
 	
 	public ArrayList<ArrayList<String>> getGrid() {
@@ -53,7 +53,6 @@ public class Grid {
 			for(int j=0; j< COLS; j++) {
 				if(GRID.get(i).get(j) == "#") {
 					int totalBombs = calculateNumberOfBombs(i,j);
-					//System.out.println("Total bombs around i= "+i+" and j= "+j+" are "+totalBombs);
 					GRID.get(i).set(j, Integer.toString(totalBombs,10));
 				}
 				

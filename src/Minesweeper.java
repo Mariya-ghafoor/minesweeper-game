@@ -6,6 +6,8 @@ import java.awt.event.*;
 
 public class Minesweeper {
 	private static final long serialVersionUID = 1L;
+	int rows;
+	int cols;
 
 	private class MineTile extends JButton {
 		private static final long serialVersionUID = 1L;
@@ -19,37 +21,28 @@ public class Minesweeper {
 		}
 	}
 	
-	
-	
-	int tileSize = 70;
-	int rows = 10;
-	int cols = 10;
-	int boardWidth = tileSize * rows;
-	int boardHeight = tileSize * cols;
-	
-	
-
-	
-	JFrame frame = new JFrame("Minesweeper");
-	JLabel textLabel = new JLabel();
-	JPanel textPanel = new JPanel();
-	JPanel boardPanel = new JPanel();
-	JButton playAgainButton = new JButton();
-	
-	MineTile[][] board = new MineTile[rows][cols];
-	
-	
-	
-	
-	public Minesweeper() {
+	public Minesweeper(int rows, int cols) {
+		this.rows = rows;
+		this.cols = cols;
+		MineTile[][] board = new MineTile[rows][cols];
+		
+		int tileSize = 800/rows;
+		
+		int boardWidth = tileSize * rows;
+		int boardHeight = tileSize * cols;
+		
+		JFrame frame = new JFrame("Minesweeper");
+		JLabel textLabel = new JLabel();
+		JPanel textPanel = new JPanel();
+		JPanel boardPanel = new JPanel();
+		JButton playAgainButton = new JButton();
 		
 		//Create a grid
 		Grid myGrid = new Grid(this.rows, this.cols);
 		ArrayList<ArrayList<String>> grid = myGrid.getGrid();
 		int countBombs = myGrid.getCountOfBombs();
 		
-		System.out.println("Grid created:");
-		myGrid.printGrid(grid);
+		//myGrid.printGrid(grid);
 		
 		
 		frame.setSize(boardWidth,boardHeight);
@@ -58,10 +51,10 @@ public class Minesweeper {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		
-		textLabel.setFont(new Font("Arial", Font.BOLD, 25));
-		textLabel.setHorizontalAlignment(JLabel.CENTER);
-		textLabel.setText("Minesweeper");
-		textLabel.setOpaque(true);
+//		textLabel.setFont(new Font("Arial", Font.BOLD, 25));
+//		textLabel.setHorizontalAlignment(JLabel.CENTER);
+//		textLabel.setText("Minesweeper");
+//		textLabel.setOpaque(true);
 		
 		playAgainButton.setFont(new Font("Arial", Font.BOLD, 25));
 		playAgainButton.setHorizontalAlignment(JLabel.CENTER);
@@ -83,12 +76,12 @@ public class Minesweeper {
 //		Filling grid with tiles
 		for(int r=0; r < rows; r++) {
 			for(int c=0; c < cols; c++) {
-				//System.out.println("row= "+r+" col= "+c);
 				MineTile tile = new MineTile(r,c);
+				System.out.println("r= "+r+" c= "+c);
 				board[r][c] = tile;
 				tile.setFocusable(false);
 				tile.setMargin(new Insets(0,0,0,0));
-				tile.setFont(new Font("Arial Unicode MS", Font.PLAIN, 45));
+				tile.setFont(new Font("Arial Unicode MS", Font.PLAIN, 450/rows));
 				
 				tile.addMouseListener(new MouseAdapter(){
 		
@@ -108,7 +101,6 @@ public class Minesweeper {
 							
 							else {
 								if (valueInGrid.equals("0")) {
-									System.out.println("Found 0. Going to reveal func");
 									revealTilesAround(tile.r,tile.c);
 									tile.setText(valueInGrid);	
 									
@@ -136,7 +128,6 @@ public class Minesweeper {
 					if(tile.isEnabled()==true) count++;	
 				}
 			}
-			System.out.println("Bombs= "+countBombs+" Empty= "+count);
 			if (count == countBombs ) {
 				playAgainButton.setText("You won! Play Again?");
 				playAgainButton.setEnabled(true);
@@ -147,7 +138,6 @@ public class Minesweeper {
 
 		//when a bomb is clicked-- reveal all--game over			
 		private void revealGrid() {
-			System.out.println("i m revealing grid");
 			
 			for(int r=0; r<rows; r++) {
 				for(int c=0; c<cols; c++) {
@@ -187,7 +177,6 @@ public class Minesweeper {
 			
 			for(int i = start_row; i <= end_row; i++) {
 				for(int j = start_col; j <= end_col; j++) {
-					//ystem.out.println("Checking tile at row="+i+"and col"+j);
 					MineTile tile = board[i][j];
 					String valueInGrid = grid.get(i).get(j);
 					tile.setText(valueInGrid);

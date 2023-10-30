@@ -2,6 +2,7 @@
 - The classic Minesweeper built on Java complete with GUI and ability to customise mine size.
 
 # Demo
+- Play the Game: [Minesweeper](https://replit.com/@mariyaaghafoor/Minesweeper-Game)
 
 # Purpose
 - The purpose of the project was to improve upon the understanding of Java classes and data structures by building the classic Minesweeper game.
